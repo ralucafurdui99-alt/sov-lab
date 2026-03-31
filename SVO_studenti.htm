@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Orientarea Valorilor Sociale · Psihologie Environmentală</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:           #F2F5F0;
+  --surface:      #FFFFFF;
+  --border:       #D8E0D2;
+  --text:         #181F14;
+  --muted:        #607055;
+  --hint:         #9EAA93;
+  --forest:       #2D6A35;
+  --forest-mid:   #4D8F56;
+  --forest-light: #E6F2E8;
+  --sky:          #2A5BA8;
+  --sky-light:    #EBF0FA;
+  --amber:        #7A5200;
+  --amber-light:  #FBF3E0;
+  --red:          #8A2020;
+  --red-light:    #FAEBEB;
+  --you-color:    #2D6A35;
+  --other-color:  #2A5BA8;
+  --radius:       14px;
+  --radius-sm:    9px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding: 2rem 1rem 5rem;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container { max-width: 640px; margin: 0 auto; }
+
+/* ── Header ── */
+header {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--hint);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+/* ── Instructions box ── */
+.instr {
+  background: var(--forest-light);
+  border: 1px solid #B8D8BC;
+  border-radius: var(--radius-sm);
+  padding: 1rem 1.25rem;
+  font-size: 13px;
+  color: #1C4A22;
+  line-height: 1.8;
+  margin-bottom: 1.25rem;
+}
+.instr strong { font-weight: 500; }
+
+/* ── Progress ── */
+.prog-wrap { margin-bottom: 1.5rem; }
+.prog-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--hint);
+  margin-bottom: 7px;
+}
+.prog-track {
+  height: 4px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.prog-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--forest), var(--forest-mid));
+  border-radius: 3px;
+  transition: width 0.5s cubic-bezier(.4,0,.2,1);
+  width: 0%;
+}
+
+/* ── Item cards ── */
+.item-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.4rem 1.4rem 1.2rem;
+  margin-bottom: 1rem;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+.item-card.answered {
+  border-color: #9ECBA4;
+  box-shadow: 0 2px 14px rgba(45,106,53,0.08);
+}
+
+.item-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 1rem;
+}
+
+.item-num {
+  min-width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+  margin-top: 2px;
+}
+.item-num.done { background: var(--forest); border-color: var(--forest); color: #fff; }
+
+.item-tag {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--forest);
+  margin-bottom: 4px;
+}
+.item-desc {
+  font-size: 13.5px;
+  color: var(--text);
+  line-height: 1.55;
+  font-style: italic;
+}
+
+/* ── Legend ── */
+.svo-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+  margin-bottom: 10px;
+  font-size: 11.5px;
+  color: var(--muted);
+}
+.svo-legend span { display: flex; align-items: center; gap: 5px; }
+.leg-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+/* ── 9-option grid ── */
+.svo-grid {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: 5px;
+}
+
+.svo-opt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  padding: 9px 3px 10px;
+  border-radius: 9px;
+  border: 1.5px solid var(--border);
+  background: var(--bg);
+  transition: border-color 0.15s, background 0.15s, transform 0.1s, box-shadow 0.15s;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.svo-opt:hover {
+  border-color: #8DBFA0;
+  background: #EFF6F0;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(45,106,53,0.1);
+}
+.svo-opt.selected {
+  border-color: var(--forest);
+  background: var(--forest-light);
+  transform: translateY(-1px);
+  animation: pop-select 0.28s ease-out forwards;
+}
+.svo-opt:active { transform: scale(0.94); }
+
+@keyframes pop-select {
+  0%   { box-shadow: 0 0 0 0 rgba(45,106,53,.4); }
+  60%  { box-shadow: 0 0 0 6px rgba(45,106,53,0); }
+  100% { box-shadow: 0 0 0 1.5px var(--forest); }
+}
+
+.svo-radio {
+  width: 15px; height: 15px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: var(--surface);
+  display: flex; align-items: center; justify-content: center;
+  transition: border-color 0.15s, background 0.15s;
+  flex-shrink: 0;
+}
+.svo-opt.selected .svo-radio { border-color: var(--forest); background: var(--forest); }
+.svo-opt.selected .svo-radio::after {
+  content: ''; width: 5px; height: 5px;
+  border-radius: 50%; background: #fff; display: block;
+}
+
+.val-you   { font-size: 11px; font-weight: 600; color: var(--you-color);   text-align: center; line-height: 1.2; }
+.val-other { font-size: 11px; color: var(--other-color); text-align: center; line-height: 1.2; }
+.val-unit  { font-size: 9px;  color: var(--hint); text-align: center; line-height: 1; }
+
+/* ── Anchor note ── */
+.anchor {
+  font-size: 11.5px;
+  color: var(--muted);
+  line-height: 1.6;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 7px 11px;
+  margin-top: 10px;
+}
+.anchor strong { color: var(--forest); font-weight: 500; }
+
+/* ── Submit ── */
+.submit-wrap { margin-top: 1.75rem; }
+
+.btn-submit {
+  width: 100%;
+  padding: 15px;
+  background: var(--forest);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  transition: background 0.2s, transform 0.1s;
+}
+.btn-submit:hover   { background: #235529; }
+.btn-submit:active  { transform: scale(0.99); }
+.btn-submit:disabled { background: var(--hint); cursor: not-allowed; }
+
+.error-msg {
+  font-size: 13px;
+  color: var(--red);
+  margin-top: 8px;
+  display: none;
+  padding: 8px 12px;
+  background: var(--red-light);
+  border-radius: 6px;
+}
+
+/* ════════════════════════════════
+   RESULT PAGE
+════════════════════════════════ */
+#result-page { display: none; }
+
+.res-hero {
+  text-align: center;
+  padding: 2.25rem 1rem 1.75rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 1rem;
+}
+
+.res-angle-label {
+  font-size: 11px;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--hint);
+  margin-bottom: 6px;
+}
+
+.res-angle {
+  font-family: 'DM Serif Display', serif;
+  font-size: 72px;
+  line-height: 1;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+
+.cat-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 24px;
+  border-radius: 50px;
+  font-size: 15px;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+}
+.cat-altruist     { background: #D4EDDA; color: #1A5E22; }
+.cat-prosocial    { background: var(--sky-light); color: var(--sky); }
+.cat-individualist{ background: var(--amber-light); color: var(--amber); }
+.cat-competitive  { background: var(--red-light); color: var(--red); }
+
+/* compass */
+.compass-wrap { width: 190px; height: 190px; margin: 0 auto 1.25rem; }
+.compass-wrap svg { width: 100%; height: 100%; }
+
+.res-desc {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.75;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* env card */
+.env-card {
+  background: var(--forest-light);
+  border: 1px solid #B8D8BC;
+  border-radius: var(--radius-sm);
+  padding: 1.1rem 1.35rem;
+  margin-top: 1.25rem;
+  text-align: left;
+}
+.env-card-title {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--forest);
+  margin-bottom: 7px;
+}
+.env-card-body { font-size: 13.5px; color: #1C4A22; line-height: 1.7; }
+
+/* ── SVO Space scatter ── */
+.res-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.35rem 1.4rem;
+  margin-bottom: 1rem;
+}
+
+.res-card-title {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--hint);
+  margin-bottom: 1rem;
+}
+
+#svo-space-svg { width: 100%; height: auto; display: block; }
+
+/* ── Distribution bar ── */
+.dist-wrap { margin-top: 0; }
+.dist-title { font-size: 12.5px; color: var(--muted); margin-bottom: 9px; }
+.dist-bar {
+  height: 12px;
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--border);
+  display: flex;
+}
+.dist-you   { background: var(--you-color);   transition: width 0.7s cubic-bezier(.4,0,.2,1); }
+.dist-other { background: var(--other-color); transition: width 0.7s cubic-bezier(.4,0,.2,1); }
+.dist-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin-top: 6px;
+}
+.dl-you   { color: var(--you-color);   font-weight: 500; }
+.dl-other { color: var(--other-color); font-weight: 500; }
+
+/* ── Per-scenario summary ── */
+.scenarios-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+}
+
+.sc-row {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 13px;
+}
+.sc-label {
+  font-size: 11px;
+  color: var(--hint);
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.sc-bars { display: flex; flex-direction: column; gap: 4px; }
+.sc-bar-row { display: flex; align-items: center; gap: 7px; font-size: 11px; }
+.sc-bar-label { width: 52px; flex-shrink: 0; }
+.sc-bar-label.you   { color: var(--you-color);   font-weight: 500; }
+.sc-bar-label.other { color: var(--other-color); }
+.sc-bar-track {
+  flex: 1; height: 7px;
+  background: var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.sc-bar-fill { height: 100%; border-radius: 4px; }
+.sc-bar-fill.you-fill   { background: var(--you-color); }
+.sc-bar-fill.other-fill { background: var(--other-color); }
+.sc-bar-val { width: 32px; text-align: right; font-size: 11px; color: var(--muted); }
+
+/* ── Divider ── */
+.divider { height: 1px; background: var(--border); margin: 1.25rem 0; }
+
+/* ── Footer note ── */
+.footer-note {
+  text-align: center;
+  font-size: 12px;
+  color: var(--hint);
+  padding-top: 0.5rem;
+}
+
+/* ════════ RESPONSIVE ════════ */
+@media (max-width: 500px) {
+  h1 { font-size: 23px; }
+  .svo-grid { gap: 3px; }
+  .svo-opt  { padding: 6px 1px 8px; gap: 3px; border-radius: 6px; }
+  .svo-radio { width: 12px; height: 12px; }
+  .svo-opt.selected .svo-radio::after { width: 4px; height: 4px; }
+  .val-you, .val-other { font-size: 9px; }
+  .val-unit { font-size: 8px; }
+  .res-angle { font-size: 56px; }
+  .scenarios-grid { grid-template-columns: 1fr; }
+  .compass-wrap { width: 160px; height: 160px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ══════════════════════════════
+     FORMULAR
+══════════════════════════════ -->
+<div id="main-form">
+
+  <header>
+    <div class="eyebrow">🌿 Psihologie Environmentală · Laborator</div>
+    <h1>Cum distribui resursele comune?</h1>
+    <p class="subtitle">Un instrument de măsurare a <em>Orientării Valorilor Sociale</em> (SVO) în context ecologic — Murphy, Ackermann &amp; Handgraaf (2011).</p>
+  </header>
+
+  <div class="instr">
+    În fiecare scenariu, tu și o altă persoană din comunitatea ta trebuie să împărțiți o resursă naturală limitată. Cifrele reprezintă <strong>cantități concrete</strong> din acea resursă — unitatea specifică este indicată sub fiecare valoare și explicată în nota de referință.<br><br>
+    <strong>Apasă pe distribuția pe care o preferi.</strong> Nu există răspunsuri corecte sau greșite.
+  </div>
+
+  <div class="prog-wrap">
+    <div class="prog-info">
+      <span id="prog-text">0 din 6 scenarii completate</span>
+      <span id="prog-pct">0%</span>
+    </div>
+    <div class="prog-track"><div class="prog-fill" id="prog-fill"></div></div>
+  </div>
+
+  <div id="items-container"></div>
+
+  <div class="submit-wrap">
+    <button class="btn-submit" id="btn-submit" onclick="submitForm()">
+      Descoperă orientarea mea SVO →
+    </button>
+    <div class="error-msg" id="error-msg"></div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════
+     PAGINA DE REZULTAT
+══════════════════════════════ -->
+<div id="result-page">
+
+  <header>
+    <div class="eyebrow">🌿 Psihologie Environmentală · Rezultatul tău</div>
+    <h1>Orientarea ta față de resursele comune</h1>
+  </header>
+
+  <!-- Hero: unghi + busolă + descriere -->
+  <div class="res-hero">
+    <div class="res-angle-label">Unghi SVO (Murphy et al., 2011)</div>
+    <div class="res-angle" id="res-angle">—</div>
+    <div id="res-badge"></div>
+    <div class="compass-wrap" id="res-compass"></div>
+    <p class="res-desc" id="res-desc"></p>
+    <div id="res-env"></div>
+  </div>
+
+  <!-- Spațiul SVO — scatter plot -->
+  <div class="res-card">
+    <div class="res-card-title">Poziția ta în spațiul SVO</div>
+    <svg id="svo-space-svg" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg"></svg>
+  </div>
+
+  <!-- Distribuție medie -->
+  <div class="res-card">
+    <div class="res-card-title">Distribuția medie a resurselor</div>
+    <div class="dist-wrap">
+      <div class="dist-title" id="dist-title">Media alocărilor tale pe toate scenariile</div>
+      <div class="dist-bar">
+        <div class="dist-you"   id="dist-you-bar"   style="width:50%"></div>
+        <div class="dist-other" id="dist-other-bar" style="width:50%"></div>
+      </div>
+      <div class="dist-labels">
+        <span class="dl-you"   id="dl-you">Tu: —</span>
+        <span class="dl-other" id="dl-other">Celălalt: —</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Per-scenariu -->
+  <div class="res-card">
+    <div class="res-card-title">Alegerile tale — scenariu cu scenariu</div>
+    <div class="scenarios-grid" id="scenarios-grid"></div>
+  </div>
+
+  <div class="footer-note">Murphy, R. O., Ackermann, K. A., &amp; Handgraaf, M. J. J. (2011).<br>
+  <em>Measuring social value orientation.</em> Judgment and Decision Making, 6(8), 771–781.</div>
+
+</div><!-- /result-page -->
+</div><!-- /container -->
+
+<script>
+// ─────────────────────────────────────────────
+//  DATE SVO (Murphy et al., 2011 — Tabelul 1)
+// ─────────────────────────────────────────────
+const ITEMS = [
+  {you:[85,85,85,85,85,85,85,85,85], other:[85,76,68,59,50,41,33,24,15]},
+  {you:[85,87,89,91,93,94,96,98,100],other:[15,19,24,28,33,37,41,46,50]},
+  {you:[50,54,59,63,68,72,76,81,85], other:[100,98,96,94,93,91,89,87,85]},
+  {you:[50,54,59,63,68,72,76,81,85], other:[100,89,79,68,58,47,36,26,15]},
+  {you:[100,94,88,81,75,69,63,56,50],other:[50,56,63,69,75,81,88,94,100]},
+  {you:[100,98,96,94,93,91,89,87,85],other:[50,54,59,63,68,72,76,81,85]}
+];
+
+const SCENARIOS = [
+  {
+    icon:'💧', tag:'Scenariu 1 — Cotă de apă',
+    desc:'Tu și un vecin împărțiți cota zilnică de apă dintr-un rezervor comunal aflat sub stres hidric.',
+    unit:'L/zi', unitShort:'L',
+    anchor:'<strong>100 L/zi</strong> = limita maximă recomandată per persoană; <strong>50 L/zi</strong> = minimul necesar pentru igienă de bază și gătit.'
+  },
+  {
+    icon:'🌲', tag:'Scenariu 2 — Recoltare din pădure',
+    desc:'Comunitatea voastră gestionează o pădure comună. Tu și altcineva primiți drepturi de recoltare (lemn, fructe) pentru această lună.',
+    unit:'kg/lună', unitShort:'kg',
+    anchor:'<strong>100 kg/lună</strong> = recolta maximă sustenabilă per familie; <strong>50 kg</strong> = minimul viabil pentru încălzire în sezon rece.'
+  },
+  {
+    icon:'☀️', tag:'Scenariu 3 — Energie solară',
+    desc:'Un sistem solar comunal produce energie limitată. Tu și un alt gospodar o împărțiți pentru această săptămână.',
+    unit:'kWh/săpt.', unitShort:'kWh',
+    anchor:'<strong>100 kWh</strong> = producția totală săptămânală a panourilor; un gospodar mediu consumă <strong>~70 kWh/săpt.</strong> pentru nevoi de bază.'
+  },
+  {
+    icon:'🌍', tag:'Scenariu 4 — Buget de carbon',
+    desc:'Într-un proiect pilot de compensare a emisiilor, tu și o altă persoană primiți un buget comun de credite de carbon pentru luna în curs.',
+    unit:'kg CO₂', unitShort:'CO₂',
+    anchor:'<strong>100 kg CO₂/lună</strong> = bugetul recomandat per persoană pentru neutralitate climatică; <strong>50 kg</strong> acoperă mobilitatea minimă și gătitul.'
+  },
+  {
+    icon:'🐟', tag:'Scenariu 5 — Cotă de pescuit',
+    desc:'Tu și un alt pescar dintr-o comunitate lacustră împărțiți cota anuală pentru a nu epuiza rezervele de pești.',
+    unit:'kg/an', unitShort:'kg',
+    anchor:'<strong>100 kg/an</strong> = cota maximă sustenabilă stabilită de comitetul lacului; sub <strong>50 kg/an</strong> nu acoperă costurile de operare ale unei bărci.'
+  },
+  {
+    icon:'🌾', tag:'Scenariu 6 — Teren agricol comun',
+    desc:'O suprafață de teren agricol comunal este disponibilă. Tu și un alt sătean conveniți asupra alocărilor pentru acest sezon.',
+    unit:'ari', unitShort:'ari',
+    anchor:'<strong>100 ari</strong> (= 1000 m²) = suprafața totală disponibilă; <strong>50 ari</strong> este minimul viabil pentru o cultură de subzistență pentru o familie.'
+  }
+];
+
+// ─────────────────────────────────────────────
+//  STARE
+// ─────────────────────────────────────────────
+let choices = new Array(6).fill(null);
+let answered = 0;
+
+function getVals(i, j) {
+  return { you: ITEMS[i].you[j], other: ITEMS[i].other[j] };
+}
+
+// ─────────────────────────────────────────────
+//  BUILD ITEMS
+// ─────────────────────────────────────────────
+function buildItems() {
+  const cont = document.getElementById('items-container');
+  ITEMS.forEach((item, i) => {
+    const sc = SCENARIOS[i];
+    let opts = '';
+    for (let j = 0; j < 9; j++) {
+      opts += `<div class="svo-opt" id="opt-${i}-${j}" onclick="pick(${i},${j})">
+        <div class="svo-radio"></div>
+        <div class="val-you">${item.you[j]}</div>
+        <div class="val-other">${item.other[j]}</div>
+        <div class="val-unit">${sc.unitShort}</div>
+      </div>`;
+    }
+    const card = document.createElement('div');
+    card.className = 'item-card';
+    card.id = 'card-' + i;
+    card.innerHTML = `
+      <div class="item-head">
+        <div class="item-num" id="num-${i}">${i+1}</div>
+        <div>
+          <div class="item-tag">${sc.icon} ${sc.tag}</div>
+          <div class="item-desc">${sc.desc}</div>
+        </div>
+      </div>
+      <div class="svo-legend">
+        <span><span class="leg-dot" style="background:var(--you-color)"></span>Tu primești (${sc.unit})</span>
+        <span><span class="leg-dot" style="background:var(--other-color)"></span>Celălalt primește (${sc.unit})</span>
+      </div>
+      <div class="svo-grid">${opts}</div>
+      <div class="anchor">📌 <strong>Referință:</strong> ${sc.anchor}</div>
+    `;
+    cont.appendChild(card);
+  });
+}
+
+function pick(i, j) {
+  const wasNull = choices[i] === null;
+  if (choices[i] !== null)
+    document.getElementById(`opt-${i}-${choices[i]}`).classList.remove('selected');
+  choices[i] = j;
+  document.getElementById(`opt-${i}-${j}`).classList.add('selected');
+  document.getElementById('card-'+i).classList.add('answered');
+  const num = document.getElementById('num-'+i);
+  num.classList.add('done');
+  num.textContent = '✓';
+  if (wasNull) {
+    answered++;
+    const pct = Math.round(answered/6*100);
+    document.getElementById('prog-text').textContent = answered + ' din 6 scenarii completate';
+    document.getElementById('prog-pct').textContent  = pct + '%';
+    document.getElementById('prog-fill').style.width = pct + '%';
+  }
+}
+
+// ─────────────────────────────────────────────
+//  CALCULE SVO
+// ─────────────────────────────────────────────
+function computeSVO() {
+  let sY=0, sO=0;
+  for (let i=0;i<6;i++) { const v=getVals(i,choices[i]); sY+=v.you; sO+=v.other; }
+  const mY=sY/6, mO=sO/6;
+  return {
+    angle:    Math.round(Math.atan2(mO-50,mY-50)*(180/Math.PI)*100)/100,
+    meanYou:  Math.round(mY*10)/10,
+    meanOther:Math.round(mO*10)/10
+  };
+}
+
+function getCategory(a) {
+  if (a > 57.15) return {
+    name:'Altruist', cls:'cat-altruist', icon:'🌱',
+    desc:'Prioritizezi bunăstarea celeilalte persoane, uneori în detrimentul câștigului propriu. Această orientare este rară și reflectă o preocupare profundă pentru ceilalți.',
+    env:'Orientarea altruistă corelează cu activism ecologic pronunțat și disponibilitate de a suporta costuri personale semnificative pentru binele comun — inclusiv reduceri voluntare de consum care depășesc normele sociale.',
+    envIcon:'🌿'
+  };
+  if (a > 22.45) return {
+    name:'Prosocial', cls:'cat-prosocial', icon:'🤝',
+    desc:'Cauți să maximizezi câștigul comun și să minimizezi inegalitatea. Aceasta este orientarea cea mai frecventă (~60% din oameni).',
+    env:'Persoanele prosociale sunt cel mai receptive la mesajele ecologice bazate pe norma socială și echitate. Tind să coopereze în dileme de tip „commons" și susțin politici de mediu care distribuie echitabil costurile și beneficiile.',
+    envIcon:'♻️'
+  };
+  if (a > -12.04) return {
+    name:'Individualist', cls:'cat-individualist', icon:'🎯',
+    desc:'Prioritizezi maximizarea câștigului propriu, fără a lua în calcul în mod special câștigul celeilalte persoane. Nu implică ostilitate — celălalt pur și simplu nu intră în ecuație.',
+    env:'Orientarea individualistă nu exclude comportamentul ecologic, dar acesta tinde să fie motivat de beneficii personale (economii, sănătate) mai degrabă decât de considerente morale. Intervențiile bazate pe stimulente economice (tarife verzi, subvenții) sunt mai eficiente pentru acest profil.',
+    envIcon:'💡'
+  };
+  return {
+    name:'Competitiv', cls:'cat-competitive', icon:'⚡',
+    desc:'Cauți să maximizezi diferența dintre câștigul tău și al celuilalt, chiar dacă aceasta înseamnă că obții mai puțin în termeni absoluți. Această orientare este rară (~3–4% din oameni).',
+    env:'Orientarea competitivă poate genera comportamente de tip free-rider în dilemele ecologice colective. Cercetările sugerează că pentru acest profil, reglementarea externă și transparența socială sunt mai eficiente decât apelurile morale sau campaniile de conștientizare.',
+    envIcon:'⚠️'
+  };
+}
+
+// ─────────────────────────────────────────────
+//  BUSOLA SVG
+// ─────────────────────────────────────────────
+function drawCompass(angle) {
+  const toR = a => (a-90)*Math.PI/180;
+  const cx=95, cy=95, r=72;
+  const zones=[
+    {from:57.15,to:90,   fill:'#C8E6CE',label:'Altruist',   lx:95, ly:16},
+    {from:22.45,to:57.15,fill:'#C8D9F0',label:'Prosocial',  lx:174,ly:95},
+    {from:-12.04,to:22.45,fill:'#F0E6C8',label:'Individualist',lx:95,ly:176},
+    {from:-90,  to:-12.04,fill:'#F0C8C8',label:'Competitiv',lx:16, ly:95}
+  ];
+  let paths='';
+  zones.forEach(z=>{
+    const a1=toR(z.from),a2=toR(z.to);
+    const x1=cx+r*Math.cos(a1),y1=cy+r*Math.sin(a1);
+    const x2=cx+r*Math.cos(a2),y2=cy+r*Math.sin(a2);
+    const lg=(z.to-z.from)>180?1:0;
+    paths+=`<path d="M${cx},${cy} L${x1},${y1} A${r},${r} 0 ${lg},1 ${x2},${y2} Z" fill="${z.fill}"/>`;
+    paths+=`<text x="${z.lx}" y="${z.ly}" text-anchor="middle" dominant-baseline="middle" font-size="8.5" fill="#607055" font-family="DM Sans,sans-serif" font-weight="500">${z.label}</text>`;
+  });
+  const nx=cx+r*Math.cos(toR(angle)), ny=cy+r*Math.sin(toR(angle));
+  // angle guide lines
+  let guides='';
+  [0,22.45,57.15].forEach(deg=>{
+    const a=toR(deg);
+    guides+=`<line x1="${cx}" y1="${cy}" x2="${cx+r*Math.cos(a)}" y2="${cy+r*Math.sin(a)}" stroke="#D8E0D2" stroke-width="0.8" stroke-dasharray="3,3"/>`;
+  });
+  return `<svg viewBox="0 0 190 190" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="${cx}" cy="${cy}" r="${r}" fill="#F2F5F0" stroke="#D8E0D2" stroke-width="0.8"/>
+    ${paths}
+    <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#D8E0D2" stroke-width="0.8"/>
+    ${guides}
+    <line x1="${cx}" y1="${cy}" x2="${nx}" y2="${ny}" stroke="#2D6A35" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="${nx}" cy="${ny}" r="5.5" fill="#2D6A35"/>
+    <circle cx="${cx}" cy="${cy}" r="3.5" fill="#181F14"/>
+  </svg>`;
+}
+
+// ─────────────────────────────────────────────
+//  SCATTER PLOT — Spațiul SVO
+// ─────────────────────────────────────────────
+function drawSVOSpace(meanYou, meanOther) {
+  // map value 0-100 to SVG coords (padding 30px each side, plot 240x240)
+  const pad=40, size=220;
+  const toX = v => pad + (v/100)*size;
+  const toY = v => pad + size - (v/100)*size;  // y inverted
+
+  // zone fills (background quadrant-style)
+  const zones = [
+    // altruist arc zone hinted as top-right-ish
+  ];
+
+  // axis lines
+  let svg = `<svg id="svo-space-svg" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="arr" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+        <path d="M0,0 L7,3.5 L0,7 Z" fill="#9EAA93"/>
+      </marker>
+    </defs>
+    <!-- grid -->`;
+  for (let v=0;v<=100;v+=25) {
+    const x=toX(v), y=toY(v);
+    svg+=`<line x1="${x}" y1="${toY(0)}" x2="${x}" y2="${toY(100)}" stroke="#EEF0EC" stroke-width="1"/>`;
+    svg+=`<line x1="${toX(0)}" y1="${y}" x2="${toX(100)}" y2="${y}" stroke="#EEF0EC" stroke-width="1"/>`;
+    if (v>0&&v<100) {
+      svg+=`<text x="${x}" y="${toY(0)+14}" text-anchor="middle" font-size="8" fill="#B0B8A8" font-family="DM Sans,sans-serif">${v}</text>`;
+      svg+=`<text x="${toX(0)-5}" y="${y+3}" text-anchor="end" font-size="8" fill="#B0B8A8" font-family="DM Sans,sans-serif">${v}</text>`;
+    }
+  }
+
+  // SVO angle lines (prosocial boundary 22.45°, altruist boundary 57.15°)
+  const rayLen = 110;
+  [[22.45,'#C8D9F0'],[57.15,'#C8E6CE'],[-12.04,'#F0C8C8']].forEach(([deg,col])=>{
+    const rad=(deg)*Math.PI/180;
+    const ex=50+rayLen*Math.cos(rad), ey=50+rayLen*Math.sin(rad);
+    svg+=`<line x1="${toX(50)}" y1="${toY(50)}" x2="${toX(ex)}" y2="${toY(ey)}" stroke="${col}" stroke-width="1.5" stroke-dasharray="4,3"/>`;
+  });
+
+  // zone labels in space
+  svg+=`<text x="${toX(72)}" y="${toY(88)}" font-size="9" fill="#607055" font-family="DM Sans,sans-serif" font-style="italic">Altruist</text>`;
+  svg+=`<text x="${toX(82)}" y="${toY(72)}" font-size="9" fill="#607055" font-family="DM Sans,sans-serif" font-style="italic">Prosocial</text>`;
+  svg+=`<text x="${toX(80)}" y="${toY(55)}" font-size="9" fill="#607055" font-family="DM Sans,sans-serif" font-style="italic">Individualist</text>`;
+  svg+=`<text x="${toX(52)}" y="${toY(30)}" font-size="9" fill="#607055" font-family="DM Sans,sans-serif" font-style="italic">Competitiv</text>`;
+
+  // axes with arrows
+  svg+=`<line x1="${toX(0)}" y1="${toY(0)}" x2="${toX(100)}" y2="${toY(0)}" stroke="#9EAA93" stroke-width="1" marker-end="url(#arr)"/>`;
+  svg+=`<line x1="${toX(0)}" y1="${toY(0)}" x2="${toX(0)}" y2="${toY(100)}" stroke="#9EAA93" stroke-width="1" marker-end="url(#arr)"/>`;
+
+  // axis labels
+  svg+=`<text x="${toX(50)}" y="${toY(0)+28}" text-anchor="middle" font-size="9.5" fill="#607055" font-family="DM Sans,sans-serif">Resurse pentru TU</text>`;
+  svg+=`<text x="${toX(0)-22}" y="${toY(50)}" text-anchor="middle" font-size="9.5" fill="#607055" font-family="DM Sans,sans-serif" transform="rotate(-90,${toX(0)-22},${toY(50)})">Resurse pentru CELĂLALT</text>`;
+
+  // your point (animated via CSS)
+  const px=toX(meanYou), py=toY(meanOther);
+  svg+=`<circle cx="${px}" cy="${py}" r="9" fill="#2D6A35" opacity="0.18" id="svo-halo"/>`;
+  svg+=`<circle cx="${px}" cy="${py}" r="6" fill="#2D6A35" id="svo-dot"/>`;
+  svg+=`<text x="${px+11}" y="${py-6}" font-size="9" fill="#2D6A35" font-family="DM Sans,sans-serif" font-weight="500">Tu (${meanYou}, ${meanOther})</text>`;
+
+  svg+='</svg>';
+  return svg;
+}
+
+// ─────────────────────────────────────────────
+//  SUBMIT
+// ─────────────────────────────────────────────
+function submitForm() {
+  const missing = choices.filter(c=>c===null).length;
+  if (missing > 0) {
+    const e=document.getElementById('error-msg');
+    e.style.display='block';
+    e.textContent=`Te rog completează toate scenariile. Mai ${missing===1?'rămâne':'rămân'} ${missing} necompletat${missing===1?'':'e'}.`;
+    return;
+  }
+  document.getElementById('error-msg').style.display='none';
+  document.getElementById('btn-submit').disabled=true;
+
+  const {angle,meanYou,meanOther}=computeSVO();
+  const cat=getCategory(angle);
+  showResult(angle,cat,meanYou,meanOther);
+}
+
+// ─────────────────────────────────────────────
+//  SHOW RESULT
+// ─────────────────────────────────────────────
+function showResult(angle,cat,meanYou,meanOther) {
+  document.getElementById('main-form').style.display='none';
+  document.getElementById('result-page').style.display='block';
+  window.scrollTo({top:0,behavior:'smooth'});
+
+  // Hero
+  document.getElementById('res-angle').textContent = angle+'°';
+  document.getElementById('res-badge').innerHTML =
+    `<div style="margin-bottom:1.25rem"><span class="cat-pill ${cat.cls}">${cat.icon} ${cat.name}</span></div>`;
+  document.getElementById('res-compass').innerHTML = drawCompass(angle);
+  document.getElementById('res-desc').textContent  = cat.desc;
+  document.getElementById('res-env').innerHTML = `
+    <div class="env-card">
+      <div class="env-card-title">${cat.envIcon} Implicații în context ecologic</div>
+      <div class="env-card-body">${cat.env}</div>
+    </div>`;
+
+  // Scatter plot
+  document.getElementById('svo-space-svg').outerHTML = drawSVOSpace(meanYou,meanOther);
+
+  // Distribution bar
+  const total=meanYou+meanOther;
+  const yPct=Math.round(meanYou/total*100);
+  setTimeout(()=>{
+    document.getElementById('dist-you-bar').style.width   = yPct+'%';
+    document.getElementById('dist-other-bar').style.width = (100-yPct)+'%';
+  },400);
+  document.getElementById('dl-you').textContent   = `Tu: ${meanYou} (${yPct}%)`;
+  document.getElementById('dl-other').textContent = `Celălalt: ${meanOther} (${100-yPct}%)`;
+
+  // Per-scenario bars
+  let html='';
+  for(let i=0;i<6;i++){
+    const v=getVals(i,choices[i]);
+    const sc=SCENARIOS[i];
+    const yW=Math.round(v.you), oW=Math.round(v.other);
+    html+=`<div class="sc-row">
+      <div class="sc-label">${sc.icon} ${sc.tag.split('—')[1].trim()}</div>
+      <div class="sc-bars">
+        <div class="sc-bar-row">
+          <span class="sc-bar-label you">Tu</span>
+          <div class="sc-bar-track"><div class="sc-bar-fill you-fill" style="width:${yW}%"></div></div>
+          <span class="sc-bar-val">${yW} ${sc.unitShort}</span>
+        </div>
+        <div class="sc-bar-row">
+          <span class="sc-bar-label other">Celălalt</span>
+          <div class="sc-bar-track"><div class="sc-bar-fill other-fill" style="width:${oW}%"></div></div>
+          <span class="sc-bar-val">${oW} ${sc.unitShort}</span>
+        </div>
+      </div>
+    </div>`;
+  }
+  document.getElementById('scenarios-grid').innerHTML=html;
+}
+
+// ─────────────────────────────────────────────
+buildItems();
+</script>
+</body>
+</html>
